@@ -1,3 +1,7 @@
+SHELL = /bin/bash
+.SUFFIXES:
+.SUFFIXES: .c .o
+
 IDIR =../include
 CC=gcc
 CFLAGS=-I$(IDIR)
@@ -17,10 +21,7 @@ OBJ = $(addprefix $(ODIR)/,$(_OBJ))
 $(ODIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-healthchk: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
-
-all: $(OBJ) 
+all: $(OBJ)
 	$(CC) -o healthchk $^ $(CFLAGS) $(LIBS)
 
 packages:

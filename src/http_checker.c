@@ -22,13 +22,13 @@ int get_response_code(char *url, long *resCode)
 		
 		if (CURLE_OK == res)
 		{
-			long *rc;
+			long rc;
 
             res = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &rc);
 
             if ((CURLE_OK == res) && rc)
             {
-                resCode = rc;
+                *resCode = rc;
                 exitCode = RCCHECK_OK;
             }
             else

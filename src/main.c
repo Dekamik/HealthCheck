@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
 	if (argc != 2) 
 	{
-		fprintf(stderr, "Expecting one argument (URL)");
+		fprintf(stderr, "Expecting one argument (URL)\n");
 		return HC_ERR_ARGS;
 	}
 
@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
 
 	if (RCCHECK_OK == res)
 	{
-		printf("HTTP response code %ld", resCode);
+		printf("HTTP response code %ld\n", resCode);
 
 		if (HTTP_OK == resCode)
 		{
@@ -37,6 +37,6 @@ int main(int argc, char *argv[])
 		}
 	}
 	
-	fprintf(stderr, "Error occured when using cURL");
+	fprintf(stderr, "Error occured when using cURL\n");
 	return HC_ERR_IO;
 }
