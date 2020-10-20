@@ -10,7 +10,7 @@ LIBS = -lcurl
 _DEPS = 
 DEPS = $(addprefix $(IDIR)/,$(_DEPS))
 
-_OBJ = main.o
+_OBJ = main.o http_checker.o
 OBJ = $(addprefix $(ODIR)/,$(_OBJ))
 
 

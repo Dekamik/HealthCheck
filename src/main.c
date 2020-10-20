@@ -1,41 +1,42 @@
 #include <stdio.h>
-#include <curl/curl.h>
 
-int main(void) 
+#include "http_checker.h"
+
+const int HC_OK_ALIVE = 0;
+const int HC_OK_DEAD = 1;
+const int HC_ERR_IO = 5;
+const int HC_ERR_ARGS = 22;
+
+const int HTTP_OK = 200;
+
+int main(int argc, char *argv[]) 
 {
-	CURL *curl;
-	CURLcode res;
-	int exitCode;
-
-	curl = curl_easy_init();
-	if (curl)
+	if (argc != 2) 
 	{
-		curl_easy_setopt(curl, CURLOPT_URL, "");
-		curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-		curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
-
-		res = curl_easy_perform(curl);
-		
-
-		if (res == CURLE_OK) 
-		{
-
-			fprintf(stderr, "HTTP status ");
-			exitCode = 1;
-		}
-		else 
-		{
-			printf("HTTP status 200");
-			exitCode = 0;
-		}
-
-		curl_easy_cleanup(curl);
-	}
-	else {
-		fprintf(stderr, "cURL didn't initialize.");
-		exitCode = 1;
+		fprintf(stderr, "Expecting one argument (URL)");
+		return HC_ERR_ARGS;
 	}
 
+	int res;
+	char *url = argv[1];
+	long resCode;
+
+	res = get_response_code(url, &resCode);
+
+	if (RCCHECK_OK == res)
+	{
+		printf("HTTP response code %ld", resCode);
+
+		if (HTTP_OK == resCode)
+		{
+			return HC_OK_ALIVE;
+		}
+		else
+		{
+			return HC_OK_DEAD;
+		}
+	}
 	
-	return exitCode;
+	fprintf(stderr, "Error occured when using cURL");
+	return HC_ERR_IO;
 }
